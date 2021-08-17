@@ -23,26 +23,32 @@
     - Metric của **Prometheus** sử dụng chuẩn **OpenMetrics**.
     - **Prometheus** hỗ trợ 3 hình thức cài đặt các thành phần hệ thống gồm : Docker Image, cài đặt từ source với **Go** và file chương trình chạy sẵn đã được biên dịch sẵn.
 ## **2) Kiến trúc Prometheus**
-- **Prometheus** thực hiện quá trình lấy các thông số/số liệu (metric) từ các job được chỉ định qua kênh trực tiếp hoặc thông qua dịch vụ Pushgateway trung gian. Sau đấy **Prometheus** sẽ lưu trữ các dữ liệu thu thập được ở local máy chủ. Tiếp đến sẽ chạy các rule để xử lý các dữ liệu theo nhu cầu cũng như kiểm tra thực hiện các cảnh báo mà bạn mong muốn.
+- **Prometheus** thực hiện quá trình lấy các thông số/số liệu (metric) từ các job được chỉ định qua kênh trực tiếp hoặc thông qua dịch vụ **Pushgateway** trung gian. Sau đấy **Prometheus** sẽ lưu trữ các dữ liệu thu thập được ở local máy chủ. Tiếp đến sẽ chạy các rule để xử lý các dữ liệu theo nhu cầu cũng như kiểm tra thực hiện các cảnh báo mà bạn mong muốn.
 
     <img src=https://i.imgur.com/FwYWMcH.png>
 
 - Các thành phần trong hệ thống **Prometheus** :
     - Máy chủ **Prometheus** đảm nhận việc lấy dữ liệu và lưu trữ dữ liệu time-series.
-    - Thư việc client cho các ứng dụng.
+    - Thư viện client cho các ứng dụng.
     - **Push Gateway Prometheus**: sử dụng để hỗ trợ các job có thời gian thực hiện ngắn (tạm thời).  Đơn giản là các tác vụ công việc này không tồn tại lâu đủ để **Prometheus** chủ động lấy dữ liệu. Vì vậy là mà các dữ liệu chỉ số (metric) sẽ được đẩy về **Push Gateway** rồi đẩy về **Prometheus Server**.
     - Đa dạng **Exporter** hỗ trợ giám sát các dịch vụ hệ thống và gửi về **Prometheus** theo chuẩn **Prometheus** mong muốn.
     - **AlertManager**: dịch vụ quản lý, xử lý các cảnh báo (alert).
     - Và rất nhiều công cụ hỗ trợ khác,..
 ## **3) Một số thuật ngữ cơ bản trong Prometheus**
 - **Time-series Data** : là một chuỗi các điểm dữ liệu, thường bao gồm các phép đo liên tiếp được thực hiện từ cùng một nguồn trong một khoảng thời gian.
-- **Alert** : một cảnh báo (alert) là kết quả của việc đạt điều kiện thoả mãn một rule cảnh báo được cấu hình trong Prometheus. Các cảnh báo sẽ được gửi đến dịch vụ **Alertmanager**.
+- **Alert** : một cảnh báo (alert) là kết quả của việc đạt điều kiện thoả mãn một rule cảnh báo được cấu hình trong **Prometheus**. Các cảnh báo sẽ được gửi đến dịch vụ **Alertmanager**.
 - **Alertmanager** : chương trình đảm nhận nhiệm vụ tiếp nhận, xử lý các hoạt động cảnh báo.
 - **Client Library** : một số thư viện hỗ trợ người dùng có thể tự tuỳ chỉnh lập trình phương thức riêng để lấy dữ liệu từ hệ thống và đẩy dữ liệu metric về **Prometheus**.
 - **Endpoint**: nguồn dữ liệu của các chỉ số (metric) mà **Prometheus** sẽ đi lấy thông tin.
-- **Exporter** : **exporter** là một chương trình được sử dụng với mục đích thu thập, chuyển đổi các metric không ở dạng kiểu dữ liệu chuẩn Prometheus sang chuẩn dữ liệu **Prometheus**. Sau đấy **exporter** sẽ expose web service api chứa thông tin các metrics hoặc đẩy về **Prometheus**.
+- **Exporter** : **exporter** là một chương trình được sử dụng với mục đích thu thập, chuyển đổi các metric không ở dạng kiểu dữ liệu chuẩn **Prometheus** sang chuẩn dữ liệu **Prometheus**. Sau đấy **exporter** sẽ expose web service api chứa thông tin các metrics hoặc đẩy về **Prometheus**.
 - **Instance** : một instance là một nhãn (label) dùng để định danh duy nhất cho một target trong một job .
 - **Job** : là một tập hợp các target chung một nhóm mục đích. Ví dụ: giám sát một nhóm các dịch vụ database,… thì ta gọi đó là một job .
 - **PromQL** : `promql` là viết tắt của **Prometheus Query Language**, ngôn ngữ này cho phép bạn thực hiện các hoạt động liên quan đến dữ liệu metric.
 - **Sample** : sample là một giá trị đơn lẻ tại một thời điểm thời gian trong khoảng thời gian time series.
 - **Target** : một target là định nghĩa một đối tượng sẽ được **Prometheus** đi lấy dữ liệu (scrape). Ví dụ như: nhãn nào sẽ được sử dụng cho đối tượng, hình thức chứng thực nào sử dụng hoặc các thông tin cần thiết để quá trình đi lấy dữ liệu ở đối tượng được diễn ra.
+## **4) Use case**
+- **Prometheus** phù hợp khi nào?
+    - **Prometheus** làm việc tốt để ghi bất kỳ time series nào hoàn toàn là dạng số. Nó phù hợp với việc giám sát tập trung vào các machine tốt như việc monitoring kiển trúc *highly dynamic service-oriented*. Trong thế giới của microservices như hiện nay, nó hỗ trợ việc thu thập dữ liệu đa chiều và querying là một thế mạnh của **Prometheus**.
+    - **Prometheus** được thiết kế để đảm bảo độ tin cậy, hệ thống có thể được sử dụng trong thời gian ngừng hoạt động, cho phép bạn chuẩn đoán nhanh các sự cố. Mỗi **Prometheus server** độc lập, không phụ thuộc vào network storage hoặc các service remote khác. Bạn có thể tin cậy nó khi các thành phần khác trong infrastructure của bạn bị hỏng, và bạn sẽ không cần thiết lập một infrastructure lớn để sử dụng nó.
+- **Prometheus** không phù hợp khi nào?
+    - Các giá trị của **Prometheus** là đáng tin cậy. Bạn có thể luôn luôn xem các thông kê về hệ thống của bạn ngay cả khi nó bị lỗi. Nếu bạn cần độ chính xác là `100%` như per-request billing, thì **Prometheus** không phải một sự lựa chọn tốt như việc thu thập các data sẽ không được chi tiết và đầy đủ. Trong trường hợp như vậy, tốt nhất bạn nên sử dụng một hệ thống khác để thu thập và phân tích dữ liệu billing, còn lại bạn có thể sử dụng **Prometheus**.
