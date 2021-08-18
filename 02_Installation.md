@@ -36,8 +36,8 @@
     ```
 - **B7 :** Copy 2 thư mục `consoles` và `consoles_libraries` vào thư mục `/etc/prometheus/` :
     ```
-    # cp -r prometheus-2.12.0.linux-amd64/consoles /etc/prometheus
-    # cp -r prometheus-2.12.0.linux-amd64/console_libraries /etc/prometheus
+    # cp -r prometheus-2.29.1.linux-amd64/consoles /etc/prometheus
+    # cp -r prometheus-2.29.1.linux-amd64/console_libraries /etc/prometheus
     # chown -R prometheus:prometheus /etc/prometheus/consoles
     # chown -R prometheus:prometheus /etc/prometheus/console_libraries
     ```
@@ -88,10 +88,15 @@
     ```
 - **B11 :** Cấu hình `firewalld` cho phép port `9090` :
     ```
-    # firewall-cmd --zone=public --permanent --add-port=8080/tcp
+    # firewall-cmd --zone=public --permanent --add-port=9090/tcp
     # firewall-cmd --reload
     ```
 - **B12 :** Kiểm tra lại trạng thái dịch vụ :
     ```
     # systemctl status prometheus
     ```
+    <img src=https://i.imgur.com/KxBTuiv.png>
+
+- **B13 :** Lúc này dịch vụ **Prometheus** đã chạy và bạn có thể truy xuất dịch vụ **Prometheus** qua giao diện quản lý đơn giản của nó tại port mặc định TCP `9090`. Truy cập `http://<ip-server>:9090` :
+
+    <img src=https://i.imgur.com/36B6DH9.png>
