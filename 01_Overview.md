@@ -52,3 +52,7 @@
     - **Prometheus** được thiết kế để đảm bảo độ tin cậy, hệ thống có thể được sử dụng trong thời gian ngừng hoạt động, cho phép bạn chuẩn đoán nhanh các sự cố. Mỗi **Prometheus server** độc lập, không phụ thuộc vào network storage hoặc các service remote khác. Bạn có thể tin cậy nó khi các thành phần khác trong infrastructure của bạn bị hỏng, và bạn sẽ không cần thiết lập một infrastructure lớn để sử dụng nó.
 - **Prometheus** không phù hợp khi nào?
     - Các giá trị của **Prometheus** là đáng tin cậy. Bạn có thể luôn luôn xem các thông kê về hệ thống của bạn ngay cả khi nó bị lỗi. Nếu bạn cần độ chính xác là `100%` như per-request billing, thì **Prometheus** không phải một sự lựa chọn tốt như việc thu thập các data sẽ không được chi tiết và đầy đủ. Trong trường hợp như vậy, tốt nhất bạn nên sử dụng một hệ thống khác để thu thập và phân tích dữ liệu billing, còn lại bạn có thể sử dụng **Prometheus**.
+## **5) So sánh mô hình Prometheus và Influx - Telegraf**
+- **Prometheus** chủ động tạo request tới các **exporter** để lấy dữ liệu về, trong khi **InfluxDB** ở thế bị động, là các "exporter" như **Telegraf** sẽ đẩy dữ liệu đến **InfluxDB**.
+
+    <img src=https://i.imgur.com/MkFFkQy.png>
