@@ -136,17 +136,16 @@
         global:
           smtp_smarthost: 'smtp.gmail.com:587'
           smtp_from: '{sender_email}'                 # abc@gmail.com
-          smtp_auth_username: '{sender_username}'     # abc@gmail.com
+          smtp_auth_username: '{sender_username}'     # abc
           smtp_auth_password: '{sender_password}'
 
         route:
-          group_by: [alertname, datacenter, app]
           receiver: 'team-1'
 
         receivers:
           - name: 'team-1'
             email_configs:
-              - to: '{receiver_username}'
+              - to: '{receiver_username}'             # xyz@gmail.com
         ```
         - Trong đó : `{sender_username}`, `{sender_password}` và `{receiver_username}` cần thay đổi cho phù hợp.
 - **B3 :** Tạo rule alert : "Hệ thống cảnh báo khi máy client mất kết nối trong 10s". Tạo file khai báo rule :
@@ -162,7 +161,7 @@
             expr: up == 0
             for: 10s
             labels:
-              severity: page
+              severity: critical
             # Prometheus templates apply here in the annotation and label fields of the alert.
             annotations:
               description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 10 s.'
@@ -199,3 +198,6 @@
 
         <img src=https://i.imgur.com/1CGe3m1.png>
 
+_________
+### **Tham khảo**
+- https://medium.com/techno101/how-to-send-a-mail-using-prometheus-alertmanager-7e880a3676db
