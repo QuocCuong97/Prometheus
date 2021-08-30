@@ -113,10 +113,10 @@
     - `/` (division)
     - `%` (modulo)
     - `^` (power/exponentiation)
-- Binary arithmetic operators được định nghĩa giữa cặp giá trị scalar/scalar, vector/scalar, and vector/vector.
-    - Between two scalars là điều hiển nhiên như các phép toán bình thường
-    - Between an instant vector and a scalar, operator được áp dụng cho mỗi giá trị data sample trong vector với scalar
-    - Between two instant vectors một binary arithmetic operator được áp dụng cho mỗi entry trong vector bên trái và nó matching element với vector phía bên phải. Kết quả là một vector với grouping labels trở thành output label set. Metric name sẽ bị loại bỏ. Entries không match với entry trong right-hand vector thì sẽ không được tìm thấy trong result
+- Binary arithmetic operators được định nghĩa giữa cặp giá trị `scalar/scalar`, `vector/scalar`, and `vector/vector`.
+    - `scalar/scalar` : là điều hiển nhiên như các phép toán bình thường
+    - `vector/scalar` : operator được áp dụng cho mỗi giá trị data sample trong vector với scalar
+    - `vector/vector` : một binary arithmetic operator được áp dụng cho mỗi entry trong vector bên trái và nó matching element với vector phía bên phải. Kết quả là một vector với grouping labels trở thành output label set. Metric name sẽ bị loại bỏ. Entries không match với entry trong right-hand vector thì sẽ không được tìm thấy trong result
 #### **4.1.2) Comparison binary operators**
 - Prometheus hỗ trợ binary comparison operators sau:
     - `==` (equal)
