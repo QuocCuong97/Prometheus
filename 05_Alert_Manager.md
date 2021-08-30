@@ -1,6 +1,9 @@
 # Alertmanager
 ## **1) Tổng quan về Alerting**
 - **Alerting** với **Prometheus** được chia làm hai phần. **Alerting rules** trong **Prometheus server** gửi alerts tới **Alertmanager**. **Alertmanager** sẽ quản lý việc cảnh báo, bao gồm silencing, inhibition, aggregation và gửi cảnh báo qua các phương thức như email, on-call notification systems, and chat platforms.
+
+    <p align=center><img src=https://i.imgur.com/s27c7Q0.png width=60%></p>
+    
 - Các bước chính để set up alert và notifications là :
     - Setup và cấu hình **Alertmanager**
     - Cấu hình **Prometheus** để giao tiếp với **Alertmanager**

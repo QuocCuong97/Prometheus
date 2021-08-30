@@ -52,7 +52,14 @@
     - **Prometheus** được thiết kế để đảm bảo độ tin cậy, hệ thống có thể được sử dụng trong thời gian ngừng hoạt động, cho phép bạn chuẩn đoán nhanh các sự cố. Mỗi **Prometheus server** độc lập, không phụ thuộc vào network storage hoặc các service remote khác. Bạn có thể tin cậy nó khi các thành phần khác trong infrastructure của bạn bị hỏng, và bạn sẽ không cần thiết lập một infrastructure lớn để sử dụng nó.
 - **Prometheus** không phù hợp khi nào?
     - Các giá trị của **Prometheus** là đáng tin cậy. Bạn có thể luôn luôn xem các thông kê về hệ thống của bạn ngay cả khi nó bị lỗi. Nếu bạn cần độ chính xác là `100%` như per-request billing, thì **Prometheus** không phải một sự lựa chọn tốt như việc thu thập các data sẽ không được chi tiết và đầy đủ. Trong trường hợp như vậy, tốt nhất bạn nên sử dụng một hệ thống khác để thu thập và phân tích dữ liệu billing, còn lại bạn có thể sử dụng **Prometheus**.
-## **5) So sánh mô hình Prometheus và Influx - Telegraf**
-- **Prometheus** chủ động tạo request tới các **exporter** để lấy dữ liệu về, trong khi **InfluxDB** ở thế bị động, là các "exporter" như **Telegraf** sẽ đẩy dữ liệu đến **InfluxDB**.
+## **5) So sánh mô hình Pull và Push**
+- **Prometheus** chủ động tạo request tới các **exporter** để lấy dữ liệu về (***Pull System***), trong khi **InfluxDB** ở thế bị động, là các "exporter" như **Telegraf** sẽ đẩy dữ liệu đến **InfluxDB** (***Push System***).
 
     <img src=https://i.imgur.com/MkFFkQy.png>
+
+- Cả 2 cách tiếp cận đều có những lợi thế và các bất tiện. Sau đây là một số lí do để lựa chọn kiến trúc này :
+    - ***Kiểm soát tập trung*** : toàn bộ cấu hình truy vấn (target, interval,...) được đặt ở phía **Prometheus** server chứ không phải trên từng target riêng lẻ. **Prometheus** sẽ quyết định scrape host nào và bao lâu scrape một lần.
+        - Với hệ thống **push**, có thể gặp rủi ro khi dữ liệu bị đẩy quá nhiều về server tập trung (như **InfluxDB**), có thể khiến chúng bị crash. Trong khi đó, hệ thống **pull** cho phép kiểm soát tốc độ và sự linh hoạt với nhiều cấu hình scrape, do đó có thể set interval riêng biệt cho từng loại target trong cùng 1 file cấu hình.
+    - ***Prometheus lưu trữ các metric tổng hợp*** : **Prometheus** không phải hệ thống event-based và nó cũng rất khác với time-series database. **Prometheus** không được thiết kế để nắm bắt kịp thời các event riêng lẻ và đúng giờ (như dịch vụ ngừng hoạt động) mà nó được thiết kế để thu thập các dữ liệu tổng hợp về dịch vụ. Đây cũng là sự khác biệt cơ bản giữa time-series database và database được thiết kế để thu thập raw-data và tổng hợp chúng.
+____
+- Tham khảo : https://devconnected.com/the-definitive-guide-to-prometheus-in-2019/
